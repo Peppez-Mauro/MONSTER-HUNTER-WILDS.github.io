@@ -1,0 +1,116 @@
+body{
+	background-image: url("https://www.monsterhunter.com/wilds/_next/static/media/bg-content.1bd653a3.jpg");
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	font-family:  Segoe UI, Helvetica Neue, HelveticaNeue, YuGothic, Yu Gothic Medium, Yu Gothic, Verdana, Meiryo, sans-serif;
+}
+.menu{
+	background-image: url("https://www.monsterhunter.com/wilds/_next/static/media/buy_bg.4676bb8f.png");
+	background-size: 1940px;
+	background-repeat: no-repeat;
+	padding-left: 30px;
+	padding-right: 30px;
+	margin-top: -17px;
+	margin-left: -20px;
+	margin-right: -10px;
+	margin-bottom: -23px;
+	position: sticky;
+	top:0;
+}
+#row1{
+	margin-left: -10px;
+	position: sticky;
+	top:121.5px;
+}
+ul{
+	list-style: none;
+  	padding: 0;
+}
+li{
+	display: inline;
+	font-size: 22px;
+	margin-left: 20px;
+  	margin-right: 70px;
+  	vertical-align: middle;
+}
+a{
+	text-decoration: none;
+	color: white;
+}
+#start{
+	width: 9%;
+	transition: transform 0.3s ease-in-out;
+}
+#start:hover{
+	transform: scale(1.1);
+}
+.hunting{
+	transition: 500ms linear 0s;
+}
+.hunting:hover{
+	text-shadow: -1px 1px 8px #FFFFCC, 1px -1px 8px #FFFFFF;
+}
+#access{
+	background-color: white;
+	margin-top: 25px;
+	border-radius: 50%;
+	width: 3.5%;
+	transition: transform 0.3s ease-in-out;
+}
+#access:hover{
+	transform: scale(1.1);
+}
+#video{
+	width: 1905px;
+	margin-left: -7px;
+	margin-top: -2px;
+	margin-bottom: -13px;
+}
+h1{
+	font-size: 72px;
+	padding-top: 50px;
+	text-align: center;
+	color: white;
+	color: darkorange;
+}
+h2{
+	background-image: url("https://www.monsterhunter.com/wilds/_next/static/media/edition_title.0a9658aa.png");
+	background-size: 100% auto;
+	background-position: 50%;
+	border: groove;
+	border-color: black;
+	border-radius: 25px;
+	color: #dddc4a;
+	font-size: 42px;
+	text-align: center;
+}
+h3{
+	text-align: center;
+	color: white;
+}
+h4{
+	font-size: 24px;
+	color: wheat;
+}
+.mostri{
+	display: flex;
+	justify-content: center;
+	margin-top: 100px;
+	margin-bottom: 100px;
+	text-align: center;
+}
+section{
+	width: 35%;
+}
+#monster{
+	width: 80%;
+}
+#monster1{
+	width: 80%;
+	border: groove;
+	border-color: black;
+	border-radius: 10px;
+}
+#row{
+	margin-left: -10px;
+}

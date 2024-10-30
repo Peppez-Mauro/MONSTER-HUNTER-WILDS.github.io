@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Prema il tasto 'ESC' per uscire dalla modalità schermo intero" />
+	<script src="lib/three.js"></script>
+    <script src="lib/GLTFLoader.js"></script>
+    <script src="lib/dat.gui.js"></script>
+    <script src="lib/PointerLockControls.js"></script>
+    <link rel="icon" href="https://cf.geekdo-images.com/vmdnwRLUgzth0N05XOJoWg__thumb/img/8LoRJ9qTUFwKs6PeeRaowKjFfnc=/fit-in/200x150/filters:strip_icc()/pic7927600.png" type="icon image/type">
+    <link rel="stylesheet" type="text/css" href="touch-pad.css">
+    <style>
+    	#commandsMenu {
+            position: absolute;
+            top: 170px;
+            left: 10px;
+            background-color: rgb(255, 255, 255, 0.5);
+            margin-top: 135px;
+            border-radius: 5px;
+        }
+        #com{
+            display: revert;
+        }
+        #prova{
+        	width: 1920 px;
+        	height: 920px;
+        	margin-left: -10px;
+        	margin-top: -3px;
+        	margin-bottom: -20px;
+        }
+        body{
+			background-image: url("https://www.monsterhunter.com/wilds/_next/static/media/bg-content.1bd653a3.jpg");
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			font-family:  Segoe UI, Helvetica Neue, HelveticaNeue, YuGothic, Yu Gothic Medium, Yu Gothic, Verdana, Meiryo, sans-serif;
+		}
+		.menu{
+			background-image: url("https://www.monsterhunter.com/wilds/_next/static/media/buy_bg.4676bb8f.png");
+			background-size: 1920px;
+			background-repeat: no-repeat;
+			padding-left: 30px;
+			padding-right: 30px;
+			margin-top: -17px;
+			margin-left: -20px;
+			margin-right: -10px;
+			margin-bottom: -23px;
+			position: sticky;
+			top:0;
+		}
+		#row1{
+			margin-left: -20px;
+			position: sticky;
+			top:121.5px;
+		}
+		ul{
+			list-style: none;
+		  	padding: 0;
+		}
+		li{
+			display: inline;
+			font-size: 22px;
+			margin-left: 20px;
+		  	margin-right: 70px;
+		  	vertical-align: middle;
+		}
+		a{
+			text-decoration: none;
+			color: white;
+		}
+		#start{
+			width: 9%;
+			transition: transform 0.3s ease-in-out;
+		}
+		#start:hover{
+			transform: scale(1.1);
+		}
+		.hunting{
+			transition: 500ms linear 0s;
+		}
+		.hunting:hover{
+			text-shadow: -1px 1px 8px #FFFFCC, 1px -1px 8px #FFFFFF;
+		}
+		#access{
+			background-color: white;
+			margin-top: 25px;
+			border-radius: 50%;
+			width: 3.5%;
+			transition: transform 0.3s ease-in-out;
+		}
+		#access:hover{
+			transform: scale(1.1);
+		}
+		#row{
+			margin-left: -10px;
+			margin-top: -30px;
+		}
+        #dem{
+            max-width: 70%;
+            text-align: center;
+        }
+        h1{
+            color: darkorange;
+            text-align: center;
+        }
+        h2{
+            color: white;
+            text-align: center;
+        }
+    </style>
+	<title>Demo FANMADE</title>
+</head>
+<body>
+    <div class="menu">
+		<ul>
+			<li><a href="index.html"><img id="start" src="https://www.monsterhunter.com/wilds/assets/img/common/logo/wilds.png"></a></li>
+			<li><a class="hunting" href="caccia.html">Caccia</a></li>
+			<li><a class="hunting" href="animato.html">Un mondo Animato</a></li>
+			<li><a class="hunting" href="personaggi.html">Personaggi</a></li>
+			<li><a class="hunting" href="mostri.html">Mostri</a></li>
+			<li><a class="hunting" href="requisiti.html">Requisiti per Giocare</a></li>
+			<li><a class="hunting" href="demo.html">Vai alla Demo</a></li>
+			<li><a id="accesso" href="accesso.html"><img align="right" id="access" src="https://cdn-icons-png.flaticon.com/128/1144/1144811.png"></a></li>
+		</ul>
+	</div>
+	<img id="row1" src="https://www.monsterhunter.com/wilds/_next/static/media/c_line.68bd3880.png">    
+    <div id="demo">
+        <div id="commandsMenu" style="display: none;">
+            <h2>Comandi:</h2>
+                <ul>
+                    <li id="com">W / Arrow Up: Avanti</li>
+                    <li id="com">S / Arrow Down: Indietro</li>
+                    <li id="com">A / Arrow Left: Sinistra</li>
+                    <li id="com">D / Arrow Right: Destra</li>
+                    <li id="com">Space: Salta</li>
+                    <li id="com">W + Shift_Left: Avanti (veloce)</li>
+                    <li id="com">Control_Left: Scendi</li>
+                </ul>
+        </div>
+        <div id="dem">
+            <canvas id="prova"></canvas>
+        <script>
+            const mycanvas = document.getElementById("prova");
+            const renderer = new THREE.WebGLRenderer({
+                canvas: mycanvas,
+                antialias: true 
+            });
+
+            renderer.setClearColor(0xf0f0f0);
+            renderer.setPixelRatio(mycanvas.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
+
+            const scena = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(70, 1920/1080, 0.001, 100000.0);
+            camera.position.set(156, 50, 70);
+            camera.rotation.y=Math.PI/2-0.5;
+
+            const raycaster = new THREE.Raycaster();
+            const collisionDistance = 10; 
+
+            const objectsToCheck = [];
+
+            const image=[
+                'img/milkyway/px.png',
+                'img/milkyway/nx.png',
+                'img/milkyway/py.png',
+                'img/milkyway/ny.png',
+                'img/milkyway/pz.png',
+                'img/milkyway/nz.png',
+                ]
+            const loader = new THREE.CubeTextureLoader().load(image);
+            scena.background = loader;
+
+            new THREE.GLTFLoader().load("models/volcano/scene.glb", objectloaded);
+            function objectloaded(glb) {
+                if (glb.scene) {
+                    volcano = glb.scene;
+                    volcano.position.set(51, 20, -10);
+                    volcano.rotation.set(0, 0, 0);
+                    volcano.scale.set(500, 500, 500)
+                    glb.scene.traverse(c =>{
+                        c.castShadow=true;
+                    });
+                    scena.add(volcano);
+                    objectsToCheck.push(volcano);
+                }else{
+                    console.error("Il modello non è stato caricato correttamente");
+                }
+            }
+
+            new THREE.GLTFLoader().load("models/rathalos/scene.glb", objectloaded1);
+            function objectloaded1(glb) {
+                if (glb.scene) {
+                    rathalos = glb.scene;
+                    rathalos.position.set(0, 20, 100);
+                    rathalos.rotation.set(0, 0, 0);
+                    rathalos.scale.set(6,6,6)
+                    glb.scene.traverse(c =>{
+                        c.castShadow=true;
+                    });
+                    rathalos.traverse(function(obj){ obj.frustumCulled = false; });
+                    scena.add(rathalos);
+                    objectsToCheck.push(rathalos);
+                }else{
+                    console.error("Il modello non è stato caricato correttamente");
+                }
+            }
+
+            new THREE.GLTFLoader().load("models/terrain/scene.glb", objectloaded2);
+            function objectloaded2(glb) {
+                if (glb.scene) {
+                    terrain = glb.scene;
+                    terrain.position.set(-500, -50, 425);
+                    terrain.rotation.set(0, 0, 0);
+                    scena.add(terrain);
+                    objectsToCheck.push(terrain);
+                }else{
+                    console.error("Il modello non è stato caricato correttamente");
+                }
+            }
+
+            new THREE.GLTFLoader().load("models/geralt/scene.glb", objectloaded4);
+            function objectloaded4(glb) {
+                if (glb.scene) {
+                    geralt = glb.scene;
+                    geralt.position.set(0, -18, 150);
+                    geralt.rotation.set(0, Math.PI, 0);
+                    geralt.scale.set(5,5,5);
+                    glb.scene.traverse(c =>{
+                        c.castShadow=true;
+                    });
+                    scena.add(geralt);
+                    objectsToCheck.push(geralt);
+                }else{
+                    console.error("Il modello non è stato caricato correttamente");
+                }
+            }
+
+            new THREE.GLTFLoader().load("models/cabin/scene.gltf", objectloaded6);
+            function objectloaded6(glb) {
+                if (glb.scene) {
+                    cabin = glb.scene;
+                    cabin.position.set(60, 2, 200);
+                    cabin.rotation.set(0, Math.PI, 0);
+                    cabin.scale.set(5,5,5);
+                    glb.scene.traverse(c =>{
+                        c.castShadow=true;
+                    });
+                    scena.add(cabin);
+                    objectsToCheck.push(cabin);
+                }else{
+                    console.error("Il modello non è stato caricato correttamente");
+                }
+            }
+
+            new THREE.GLTFLoader().load("models/cloud/scene.glb", objectloaded5);
+            function objectloaded5(glb) {
+                if (glb.scene) {
+                    cloud = glb.scene;
+                    cloud.position.set(0, 300, 0);
+                    cloud.rotation.set(0, Math.PI, 0);
+                    cloud.scale.set(150,150,150);
+                    glb.scene.traverse(c =>{
+                        c.castShadow=true;
+                    });
+                    scena.add(cloud);
+                }else{
+                    console.error("Il modello non è stato caricato correttamente");
+                }
+            }
+
+            const moon = new THREE.SphereGeometry(60, 60,60);
+            const texture2 = new THREE.TextureLoader().load('img/moon.jpg');
+            const luna = new THREE.MeshBasicMaterial({
+                map:texture2,
+                side: THREE.DoubleSide
+            });
+            const moons = new THREE.Mesh(moon, luna);
+            moons.position.set(-700,200,20);
+            moons.rotation.y=-0.5
+            scena.add(moons);
+            objectsToCheck.push(moons);
+
+            const light = new THREE.AmbientLight( 0xffffff );
+            scena.add( light );
+
+            let controls = new PointerLockControls(camera,mycanvas)
+            const keyMap = {}
+            const onDocumentKey = (e) => {
+                keyMap[e.code] = e.type === 'keydown'
+            }
+            document.addEventListener('keydown', onDocumentKey, false)
+            document.addEventListener('keyup', onDocumentKey, false)
+
+            document.addEventListener('keydown', function(event) {
+                if (event.code === 'KeyK') {
+                    const commandsMenu = document.getElementById('commandsMenu');
+                    commandsMenu.style.display = (commandsMenu.style.display === 'none') ? 'block' : 'none';
+                }
+            });
+
+            function detectCollision(direction) {
+                raycaster.set(camera.position, direction);
+                const intersects = raycaster.intersectObjects(objectsToCheck, true);
+                return intersects.length > 0 && intersects[0].distance < collisionDistance;
+            }
+
+            scena.add(camera);
+
+            function aggiorna(){
+                requestAnimationFrame(aggiorna);
+                renderer.render(scena, camera);
+                let moveForward = false;
+                let moveFastForward = false;
+                let moveBackward = false;
+                let moveLeft = false;
+                let moveRight = false;
+                let moveUp = false;
+                let moveDown = false;
+        
+                if (keyMap['KeyW'] || keyMap['ArrowUp']) {
+                    moveForward = !detectCollision(new THREE.Vector3(0, 0, -1));
+                }
+                if (keyMap['KeyW'] && keyMap['ShiftLeft']) {
+                    moveFastForward = !detectCollision(new THREE.Vector3(0, 0, -1));
+                }
+                if (keyMap['KeyS'] || keyMap['ArrowDown']) {
+                    moveBackward = !detectCollision(new THREE.Vector3(0, 0, 1));
+                }
+                if (keyMap['KeyA'] || keyMap['ArrowLeft']) {
+                    moveLeft = !detectCollision(new THREE.Vector3(-1, 0, 0));
+                }
+                if (keyMap['KeyD'] || keyMap['ArrowRight']) {
+                    moveRight = !detectCollision(new THREE.Vector3(1, 0, 0));
+                }
+                if (keyMap['Space']) {
+                    moveUp = !detectCollision(new THREE.Vector3(0, -1, 0));
+                }
+                if (keyMap['ControlLeft']) {
+                    moveDown = !detectCollision(new THREE.Vector3(0, 1, 0));
+                }
+                
+                if (moveForward) controls.moveForward(0.25);
+                if (moveFastForward) controls.moveForward(0.50);
+                if (moveBackward) controls.moveForward(-0.25);
+                if (moveLeft) controls.moveRight(-0.25);
+                if (moveRight) controls.moveRight(0.25);
+                if (moveUp) controls.moveUp(0.25);
+                if (moveDown) controls.moveUp(-0.25);
+                }
+            mycanvas.addEventListener("click", function(){controls.lock()})
+            aggiorna();
+        </script>
+        </div>
+    </div>
+    <img id="row" src="https://www.monsterhunter.com/wilds/_next/static/media/c_line.68bd3880.png">
+</body>
+</html>

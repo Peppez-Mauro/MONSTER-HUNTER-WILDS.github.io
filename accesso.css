@@ -1,0 +1,32 @@
+body{
+	background-image: url("https://www.monsterhunter.com/wilds/_next/static/media/bg_story.7f2fce90.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	font-family:  Segoe UI, Helvetica Neue, HelveticaNeue, YuGothic, Yu Gothic Medium, Yu Gothic, Verdana, Meiryo, sans-serif;
+}
+#wikimedia{
+	margin-top: 200px;
+	text-align: center;
+}
+img{
+	width: 10%;
+	border-radius: 10px;
+}
+#acc{
+	color: white;
+	text-align: center;
+	margin-top: 35px;
+	margin-bottom: 25px;
+	padding-bottom: 75px;
+	width: auto;
+	margin-left: 35%;
+	margin-right: 35%;
+	border: ridge;
+	border-color: black;
+	border-radius: 10px;
+	background-color: white;
+}
+h1{
+	color: darkorange;
+	padding-bottom: 50px;
+}
